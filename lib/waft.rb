@@ -1,0 +1,5 @@
+require "waft/version"
+require "waft/util"
+require "waft/repository"
+require "waft/entity"
+require "waft/service"
