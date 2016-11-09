@@ -1,0 +1,5 @@
+#!ruby
+
+require 'waft/cli/shell'
+
+Waft::CLI::Shell.run
