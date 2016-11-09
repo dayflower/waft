@@ -33,7 +33,7 @@ module Waft
 
     def delete(index)
       ensure_load
-      hash = @dict.delete(index)
+      hash = @dict.delete_at(index)
       save_dict
       hash
     end
