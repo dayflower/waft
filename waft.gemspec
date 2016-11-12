@@ -31,6 +31,7 @@ Gem::Specification.new do |spec|
     bin/console
     bin/setup
     exe/waft-shell
+    exe/waft-web
     lib/waft.rb
     lib/waft/cli/shell.rb
     lib/waft/entity.rb
@@ -38,6 +39,7 @@ Gem::Specification.new do |spec|
     lib/waft/service.rb
     lib/waft/util.rb
     lib/waft/version.rb
+    lib/waft/web.rb
     test/test_helper.rb
     test/waft_test.rb
     waft.gemspec
@@ -49,6 +51,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency "rotp", "~> 3.3"
   spec.add_dependency "rqrcode", "~> 0.10"
   spec.add_dependency "highline", "~> 1.7"
+  spec.add_dependency "rack", "~> 1.6"
+  spec.add_dependency "rack-router", "~> 0.6"
 
   spec.add_development_dependency "bundler", "~> 1.13"
   spec.add_development_dependency "rake", "~> 10.0"

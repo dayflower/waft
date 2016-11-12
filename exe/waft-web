@@ -1,0 +1,30 @@
+#!ruby
+
+require 'waft/web'
+require 'rack/server'
+require 'highline'
+
+def getpass
+  HighLine.new.ask('password: ') { |q| q.echo = '*' }
+end
+
+arg_options = Rack::Server::Options.new.parse!(ARGV)
+
+environment = ENV["RACK_ENV"] ||= arg_options[:environment] || 'development'
+default_host = environment == 'development' ? 'localhost' : '0.0.0.0'
+
+options = {
+  environment: environment,
+  pid:         nil,
+  Port:        9292,
+  Host:        default_host,
+  AccessLog:   []
+}.merge(arg_options)
+
+password = ENV['WAFT_PASSWORD'] || getpass
+filename = ENV['WAFT_FILE'] || 'password.db'
+app = Waft::Web.new(password: password, filename: filename)
+
+options[:app] = app
+
+Rack::Server.start(options)
