@@ -106,14 +106,20 @@ module Waft
       end
     end
 
-    class RewriteIndex
-      def initialize(app)
+    class StaticServe
+      def initialize(app, root)
         @app = app
+        @file_server = Rack::File.new(root)
       end
 
       def call(env)
-        if env['PATH_INFO'] == '/'
-          env['PATH_INFO'] = '/static/index.html'
+        path_info = env['PATH_INFO']
+        if path_info == '/'
+          path_info = '/static/index.html'
+        end
+        if path_info.index('/static/') == 0
+          env['PATH_INFO'] = path_info['/static'.length .. -1]
+          return @file_server.call(env)
         end
 
         @app.call(env)
@@ -124,17 +130,9 @@ module Waft
       password = opts[:password] or raise 'password is mandatory'
       filename = opts[:filename] or raise 'filename is mandatory'
 
-      root = File.expand_path('../static', __FILE__)
+      root = File.expand_path('../../../static', __FILE__)
 
-      @app = RewriteIndex.new(
-        Rack::Static.new(
-          Waft::Web::API.new(password, filename),
-          {
-            :root => root,
-            :urls => [ '/static' ],
-          }
-        )
-      )
+      @app = StaticServe.new(Waft::Web::API.new(password, filename), root)
     end
 
     def call(env)
