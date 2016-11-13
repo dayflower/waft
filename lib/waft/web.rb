@@ -51,7 +51,7 @@ module Waft
       end
 
       def get(id)
-        entry = @service.get(id.to_i).dup
+        entry = @service.get(id.to_i - 1).dup
         body = {
           index:   id,
           account: entry.account,
@@ -73,13 +73,13 @@ module Waft
       end
 
       def delete(id)
-        entry = @service.delete(id.to_i)
+        entry = @service.delete(id.to_i - 1)
         [ 204, {}, [] ]
       end
 
       def otp(id)
         body = {
-          otp: @service.get(id.to_i).otp
+          otp: @service.get(id.to_i - 1).otp
         }
 
         Rack::Response.new do |res|
@@ -89,7 +89,7 @@ module Waft
       end
 
       def qr(id)
-        body = @service.get(id.to_i).qr(level: :m).as_png.to_s
+        body = @service.get(id.to_i - 1).qr(level: :m).as_png.to_s
 
         Rack::Response.new do |res|
           res.header['Content-type'] = 'image/png'
