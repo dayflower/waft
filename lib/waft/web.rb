@@ -20,6 +20,7 @@ module Waft
             }
           get    '/entry/'                     => ->(env) { me.list }
           get    '/entry/:id'                  => ->(env) { me.get(me.route_param(env, :id)) }
+          put    '/entry/:id'                  => ->(env) { me.set(me.route_param(env, :id)) }
           delete '/entry/:id'                  => ->(env) { me.delete(me.route_param(env, :id)) }
           get    '/entry/:id/otp'              => ->(env) { me.otp(me.route_param(env, :id)) }
           get    '/entry/:id/provision/qr.png' => ->(env) { me.qr(me.route_param(env, :id)) }
@@ -62,6 +63,13 @@ module Waft
           res.header['Content-type'] = 'application/json; charset=UTF-8'
           res.body = [ JSON.generate(body) ]
         end
+      end
+
+      def set(id)
+        body = JSON.parse(req.body, symbolize_name: true)
+        @service.set(id.to_i, Waft::Entity.new(body))
+
+        [ 204, {}, [] ]
       end
 
       def delete(id)
