@@ -20,7 +20,11 @@ module Waft
             }
           get    '/entry/'                     => ->(env) { me.list }
           get    '/entry/:id'                  => ->(env) { me.get(me.route_param(env, :id)) }
-          put    '/entry/:id'                  => ->(env) { me.set(me.route_param(env, :id)) }
+          put    '/entry/:id'                  =>
+            ->(env) {
+              req = Rack::Request.new(env)
+              me.set(req, me.route_param(env, :id))
+            }
           delete '/entry/:id'                  => ->(env) { me.delete(me.route_param(env, :id)) }
           get    '/entry/:id/otp'              => ->(env) { me.otp(me.route_param(env, :id)) }
           get    '/entry/:id/provision/qr.png' => ->(env) { me.qr(me.route_param(env, :id)) }
@@ -45,7 +49,7 @@ module Waft
       end
 
       def create(req)
-        body = JSON.parse(req.body, symbolize_name: true)
+        body = JSON.parse(req.body.read, symbolize_names: true)
         @service.add(Waft::Entity.new(body))
         [ 204, {}, [] ]
       end
@@ -65,8 +69,8 @@ module Waft
         end
       end
 
-      def set(id)
-        body = JSON.parse(req.body, symbolize_name: true)
+      def set(req, id)
+        body = JSON.parse(req.body.read, symbolize_names: true)
         @service.set(id.to_i, Waft::Entity.new(body))
 
         [ 204, {}, [] ]
