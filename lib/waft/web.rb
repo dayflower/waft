@@ -71,7 +71,7 @@ module Waft
 
       def set(req, id)
         body = JSON.parse(req.body.read, symbolize_names: true)
-        @service.set(id.to_i, Waft::Entity.new(body))
+        @service.set(id.to_i - 1, Waft::Entity.new(body))
 
         [ 204, {}, [] ]
       end
