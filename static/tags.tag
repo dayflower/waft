@@ -376,7 +376,6 @@
 		});
 
 		this.opts.model.on('updated', function () {
-			console.log('updated');
 			self.opts.model.load_items();
 		});
 
