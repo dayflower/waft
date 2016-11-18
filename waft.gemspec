@@ -40,6 +40,9 @@ Gem::Specification.new do |spec|
     lib/waft/util.rb
     lib/waft/version.rb
     lib/waft/web.rb
+    static/index.html
+    static/model.js
+    static/tags.tag
     test/test_helper.rb
     test/waft_test.rb
     waft.gemspec
