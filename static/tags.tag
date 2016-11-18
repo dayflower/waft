@@ -214,7 +214,7 @@
 		</yield>
 		<yield to="footer">
 			<div class="c-input-group">
-				<button class="c-button c-button--block c-button--error" onclick="{opts.on_submit_clicked}">Submit</button>
+				<button class="c-button c-button--block c-button--brand" onclick="{opts.on_submit_clicked}">Submit</button>
 				<button class="c-button c-button--block" onclick="{opts.on_close_clicked}">Close</button>
 			</div>
 		</yield>
