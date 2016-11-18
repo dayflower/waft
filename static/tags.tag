@@ -30,7 +30,7 @@
 <blaze-modal-form>
 	<div class="c-overlay c-overlay--dismissable" if="{visible}" onclick="{on_bg_clicked}"></div>
 	<div class="o-modal" if="{visible}">
-		<form onsubmit="{on_submit}">
+		<form onsubmit="{on_submit}" autocomplete="off">
 			<div class="c-card">
 				<header class="c-card__header">
 					<yield from="header" />
