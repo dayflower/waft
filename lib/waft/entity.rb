@@ -11,6 +11,12 @@ module Waft
       @issuer = param[:issuer]
     end
 
+    def <=>(target)
+      r = self.issuer <=> target.issuer
+      return r if r != 0
+      return self.account <=> target.account
+    end
+
     def to_h
       { secret: @secret, account: @account, issuer: @issuer }
     end

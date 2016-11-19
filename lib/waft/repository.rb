@@ -3,7 +3,8 @@ require 'json'
 
 module Waft
   class Repository
-    def initialize(password, filename)
+    def initialize(entity_class, password, filename)
+      @entity_class = entity_class
       @password = password
       @filename = filename
     end
@@ -51,7 +52,9 @@ module Waft
     end
 
     def save_dict
-      savefile(@dict || [])
+      @dict ||= []
+      @dict.sort!
+      savefile(@dict)
     end
 
     def loadfile
@@ -63,7 +66,7 @@ module Waft
         return []
       end
 
-      JSON.parse(Waft::Util.decrypt(@password, raw), symbolize_names: true)
+      JSON.parse(Waft::Util.decrypt(@password, raw), symbolize_names: true).map { |entry| @entity_class.new(entry) }
     end
 
     def savefile(entries)
