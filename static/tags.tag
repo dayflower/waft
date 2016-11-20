@@ -262,10 +262,10 @@
 		</yield>
 		<yield to="footer">
 			<div class="c-input-group">
-				<button class="c-button c-button--block c-button--success" onclick="{opts.on_otp_clicked}">OTP</button>
-				<button class="c-button c-button--block c-button--warning" onclick="{opts.on_qr_clicked}">Show QR</button>
-				<button class="c-button c-button--block c-button--info" onclick="{opts.on_edit_clicked}">Edit</button>
-				<button class="c-button c-button--block c-button--error" onclick="{opts.on_remove_clicked}">Remove</button>
+				<button class="c-button c-button--block c-button--success" onclick="{opts.on_otp_clicked}"><i class="fa fa-key"></i> OTP</button>
+				<button class="c-button c-button--block c-button--warning" onclick="{opts.on_qr_clicked}"><i class="fa fa-qrcode" aria-hidden="true"></i> Show QR</button>
+				<button class="c-button c-button--block c-button--info" onclick="{opts.on_edit_clicked}"><i class="fa fa-edit" aria-hidden="true"></i> Edit</button>
+				<button class="c-button c-button--block c-button--error" onclick="{opts.on_remove_clicked}"><i class="fa fa-trash" aria-hidden="true"></i> Remove</button>
 			</div>
 		</yield>
 	</blaze-drawer>
@@ -339,7 +339,7 @@
 </actionmenu>
 
 <app>
-	<button class="c-button" onclick="{on_add_entry_clicked}">Add</button>
+	<button class="c-button" onclick="{on_add_entry_clicked}" style="margin-top: 1em; margin-bottom: 1em;"><i class="fa fa-plus-square"></i> Add</button>
 
 	<table class="c-table c-table--clickable">
 		<thead class="c-table__head">
