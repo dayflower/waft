@@ -48,11 +48,11 @@
 				});
 		},
 
-		fetch_otp: function (index) {
+		fetch_otp: function (index, context) {
 			var self = this;
 			axios.get('/entry/' + index + '/otp')
 				.then(function (res) {
-					self.trigger('otp_fetched', res.data);
+					self.trigger('otp_fetched', res.data, context);
 				});
 		},
 

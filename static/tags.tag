@@ -270,7 +270,6 @@
 		</yield>
 	</blaze-drawer>
 
-	<otp-dialog name="otp_dialog"></otp-dialog>
 	<qr-dialog name="qr_dialog"></qr-dialog>
 	<edit-entry-dialog name="edit_entry_dialog"></edit-entry-dialog>
 	<confirm-dialog name="confirm_remove_dialog"></confirm-dialog>
@@ -326,35 +325,35 @@
 				secret: entry.secret
 			});
 		});
-
-		this.opts.model.on('otp_fetched', function (otp) {
-			var target_entry = self.target_entry;
-
-			self.tags.otp_dialog.show({
-				message: "OTP for " + target_entry.account + " on " + target_entry.issuer,
-				otp: otp.otp
-			});
-		});
 	</script>
 </actionmenu>
 
 <app>
 	<button class="c-button" onclick="{on_add_entry_clicked}" style="margin-top: 1em; margin-bottom: 1em;"><i class="fa fa-plus-square"></i> Add</button>
 
-	<table class="c-table c-table--clickable">
+	<table class="c-table">
 		<thead class="c-table__head">
 			<tr class="c-table__row c-table__row--heading">
 				<th class="c-table__cell">Issuer</th>
 				<th class="c-table__cell">Account</th>
+				<th class="c-table__cell"></th>
 			</tr>
 		</thead>
 		<tbody class="c-table__body">
-			<tr class="c-table__row" each="{entries}" onclick="{on_entry_clicked}">
+			<tr class="c-table__row" each="{entries}">
 				<td class="c-table__cell">{issuer}</td>
 				<td class="c-table__cell">{account}</td>
+				<td class="c-table__cell" style="position: relative;">
+					<span class="c-input-group" style="position: absolute; right: 0.5em;">
+						<button type="button" class="c-button c-button--success u-xsmall" onclick="{on_otp_clicked}"><i class="fa fa-key" aria-hidden="true"></i> OTP</button>
+						<button type="button" class="c-button c-button--warning u-xsmall" onclick="{on_entry_clicked}"><i class="fa fa-gear" aria-hidden="true"></i> Manage</button>
+					</span>
+				</td>
 			</tr>
 		</tbody>
 	</table>
+
+	<otp-dialog name="otp_dialog"></otp-dialog>
 
 	<actionmenu model="{opts.model}"></actionmenu>
 
@@ -365,6 +364,10 @@
 
 		on_entry_clicked(e) {
 			this.tags.actionmenu.show(e.item);
+		}
+
+		on_otp_clicked(e) {
+			this.opts.model.fetch_otp(e.item.index, e.item);
 		}
 
 		on_add_entry_clicked(e) {
@@ -383,6 +386,12 @@
 			self.update({ entries: self.opts.model.items() });
 		});
 
+		this.opts.model.on('otp_fetched', function (otp, context) {
+			self.tags.otp_dialog.show({
+				message: "OTP for " + context.account + " on " + context.issuer,
+				otp: otp.otp
+			});
+		});
 		this.opts.model.load_items();
 	</script>
 </app>
