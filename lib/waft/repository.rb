@@ -71,7 +71,7 @@ module Waft
 
     def savefile(entries)
       File.open(@filename, 'w') do |file|
-        file.write Waft::Util.encrypt(@password, JSON.generate(entries))
+        file.write Waft::Util.encrypt(@password, JSON.generate(entries.map { |entry| entry.to_h }))
       end
     end
   end
