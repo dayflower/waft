@@ -284,7 +284,7 @@
 
 		on_qr_clicked() {
 			this.hide();
-			this.tags.qr_dialog.show(this.opts.model.qr());
+			this.tags.qr_dialog.show(this.opts.model.qr(this.target_entry.index));
 		}
 
 		on_edit_clicked() {
